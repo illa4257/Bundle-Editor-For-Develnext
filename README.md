@@ -1,2 +1,2 @@
-# Bundle-Editor-For-Develnext
+# Bundle Editor for Develnext
 Make bundle for DevelNext
