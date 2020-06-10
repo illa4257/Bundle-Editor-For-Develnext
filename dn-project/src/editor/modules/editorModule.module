@@ -1,0 +1,11 @@
+{
+  "props": [],
+  "components": {
+    "script": {
+      "type": "script\\MacroScript",
+      "x": 64.0,
+      "y": 80.0,
+      "props": {}
+    }
+  }
+}

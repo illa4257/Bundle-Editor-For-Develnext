@@ -1,0 +1,21 @@
+/* JavaFX CSS Style with -fx- prefix */
+
+.flat-btn {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 2);
+}
+
+.panel {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 0, 2);
+}
+
+.progress-bar {
+    -fx-accent: #6680e6;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #e6e6e6;
+}
+
+.progress-bar > .bar {
+    -fx-background-insets: 0;
+}
