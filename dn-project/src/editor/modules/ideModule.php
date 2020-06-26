@@ -143,7 +143,7 @@ class ideModule extends AbstractModule
         $edit->graphic = $icon;
         $edit->on("action", function (){
             $graphic = $this->tree->focusedItem->graphic;
-            $this->editFile($graphic->data('file'));
+            $this->editFile($graphic->data('fp'));
         });
         $l[] = $edit;
         $contextMenu->items->add($edit);
@@ -193,13 +193,13 @@ class ideModule extends AbstractModule
             }
         });
         $this->tree->on('dragDrop', function (UXDragEvent $f){
-            $path = $this->tree->focusedItem->graphic->data('path');
+            $path = $this->tree->focusedItem->graphic->data('path') . '/';
             $this->block();
             $ac = new ac;
             $ac->help1->text = "Copying files...";
             $ac->show();
             $ac->setH();
-            $this->activeForm = $ac;
+            $this->getContextForm()->activeForm = $ac;
             $l = $f->dragboard->files;
             (new Thread(function () use ($ac, $path, $l){
                 $var = new varE;
@@ -291,7 +291,7 @@ class ideModule extends AbstractModule
         return $l;
     }
     
-    function makeTree($arr, UXTreeItem $parent, UXTreeView $root = null){
+    function makeTree($arr, UXTreeItem $parent, $root = null){
         foreach ($arr as $item){
             $child = new UXTreeItem;
             if(gettype($item)=="array"){
@@ -316,6 +316,7 @@ class ideModule extends AbstractModule
             $iconArea->data('isDir', $child->isDir);
             if(!$child->isDir){
                 $iconArea->data('file', fs::abs($item));
+                $iconArea->data('fp', str::replace(fs::abs($item), fs::abs($GLOBALS['projectdir']), ""));
             }
             $child->graphic = $iconArea;
             $this->saveExpands($root);

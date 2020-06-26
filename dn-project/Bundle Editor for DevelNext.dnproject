@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project author="illa4257" authorOS="Windows 10" createdAt="1591649614784" ideName="DevelNext" ideVersion="16.7.0" ideVersionHash="2017103112" name="Bundle Editor for DevelNext" packageName="editor" template="ide\project\templates\DefaultGuiProjectTemplate" updatedAt="1591808032367">
+<project author="illa4257" authorOS="Windows 10" createdAt="1591649614784" ideName="DevelNext" ideVersion="16.7.0" ideVersionHash="2017103112" name="Bundle Editor for DevelNext" packageName="editor" template="ide\project\templates\DefaultGuiProjectTemplate" updatedAt="1593215440116">
   <tree>
     <expanded>
     <path src=""/>
@@ -7,7 +7,7 @@
       <path src="/src/editor"/>
       <path src="/src/editor/forms"/>
       <path src="/src/editor/modules"/>
-      <path src="/src/scripts"/>
+      <path src="/vendor"/>
     </expanded>
   </tree>
   <openedFiles>

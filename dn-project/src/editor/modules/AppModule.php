@@ -11,7 +11,8 @@ class AppModule extends AbstractModule
      */
     function doAction(ScriptEvent $e = null)
     {    
-        $GLOBALS['version'] = "dev-v0.0.1.0";
+        var_dump($GLOBALS);
+        $GLOBALS['version'] = "dev-v0.0.1.1";
         $GLOBALS['progdir'] = fs::parent($GLOBALS['argv'][0]) . '/';
         $GLOBALS['progdir'] = "";
         $GLOBALS['projectdir'] = fs::abs('./') . '/project/';

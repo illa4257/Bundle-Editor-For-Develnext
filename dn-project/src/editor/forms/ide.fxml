@@ -6,14 +6,14 @@
         <Font name="System Regular" size="21"/>
       </font>
     </LabelEx>
-    <Panel AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" backgroundColor="#e6e6e6" borderColor="#c0c0c0" borderRadius="0" borderStyle="SOLID" borderWidth="0" focusTraversable="false" id="panel" layoutX="0" layoutY="24" maxHeight="-1" maxWidth="-1" minHeight="-1" minWidth="-1" prefHeight="32" prefWidth="856" style="-fx-border-color:black;-fx-border-width :0 0 1 0;" styleClass="" titleColor="#333333" titleOffset="15" titlePosition="TOP_LEFT">
+    <Panel AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" backgroundColor="#e6e6e6" borderColor="#c0c0c0" borderRadius="0" borderStyle="SOLID" borderWidth="0" focusTraversable="false" id="panel" layoutX="0" layoutY="24" maxHeight="-1" maxWidth="-1" minHeight="-1" minWidth="-1" prefHeight="32" prefWidth="856" style="-fx-border-color:gray;-fx-border-width :0 0 1 0;" styleClass="" titleColor="#333333" titleOffset="15" titlePosition="TOP_LEFT">
       <children>
-        <Button alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="4" id="build" layoutX="0" layoutY="0" prefHeight="30" prefWidth="120" styleClass="button " text="Build" textAlignment="CENTER" underline="false" wrapText="false">
+        <Button alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="7.75" id="build" layoutX="0" layoutY="2" prefHeight="28" prefWidth="120" styleClass="button " text="Build" textAlignment="CENTER" underline="false" wrapText="false">
           <font>
             <Font name="System Regular" size="12"/>
           </font>
         </Button>
-        <Data cursor="DEFAULT" enabled="1" id="data-build" visible="1"/>
+        <Data cursor="DEFAULT" enabled="1" graphic=".data/img/box-20x20.png" id="data-build" visible="1"/>
       </children>
       <titleFont>
         <Font name="System Regular" size="12"/>

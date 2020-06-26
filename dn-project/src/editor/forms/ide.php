@@ -1,11 +1,7 @@
 <?php
 namespace editor\forms;
 
-use Exception;
-use bundle\zip\ZipFileScript;
-use facade\Json;
-use std, gui, framework, editor;
-use scripts\pmgr;
+use Exception, bundle\zip\ZipFileScript, facade\Json, std, gui, framework, editor, scripts\pmgr;
 
 
 class ide extends AbstractForm
@@ -15,7 +11,7 @@ class ide extends AbstractForm
      * @event close 
      */
     function doClose(UXWindowEvent $e = null)
-    {    
+    {
         $this->activeForm = null;
         $this->block();
         $dialog = UXDialog::confirm("Do you really want to close the project \"$this->projectName\"?");
@@ -68,7 +64,7 @@ class ide extends AbstractForm
     {    
         if($e->clickCount>=2){
             if($this->tree->focusedItem->graphic->data('isDir')!=true){
-                $file = $this->tree->focusedItem->graphic->data('file');
+                $file = fs::abs(fs::abs($GLOBALS['projectdir']).$this->tree->focusedItem->graphic->data('fp'));
                 $graphic = $this->tree->focusedItem->graphic->snapshot();
                 $ext = fs::ext($file);
                 $bool = false;
@@ -78,7 +74,7 @@ class ide extends AbstractForm
                     }
                 }
                 if($bool){
-                    $this->editFile($file);
+                    $this->editFile($this->tree->focusedItem->graphic->data('fp'));
                 }
             }
         }
@@ -319,8 +315,8 @@ class ide extends AbstractForm
         $this->tabs->enabled = $en;
     }
     
-    public function editFile($file){
-        $file = fs::abs($file);
+    public function editFile($fp){
+        $file = fs::abs(fs::abs($GLOBALS['projectdir']).$fp);
         if(fs::exists($file)){
             $bool = true;
             $i = 0;
@@ -334,7 +330,8 @@ class ide extends AbstractForm
                 $tab = new UXTab;
                 $tab->data("tab", true);
                 $tab->data("file", $file);
-                $tab->data('data', "{\"type\":\"File\",\"file\":\"".str::replace($file, '\\', '\\\\')."\"}");
+                $tab->data('data', "{\"type\":\"File\",\"file\":\"".str::replace($fp, '\\', '\\\\')."\"}");
+                
                 $tab->text = fs::name($file);
                 $graphic = tools::getIcon(fs::ext($file));
                 $graphic = new UXImageArea($graphic);
@@ -343,12 +340,12 @@ class ide extends AbstractForm
                 $tab->graphic = $graphic;
                 $frag = new UXFragmentPane;
                 $editor = new editor;
-                $editor->openFile($file);
                 $editor->showInFragment($frag);
                 $tab->content = $frag;
                 $this->tabsList[] = $tab;
                 $this->openedFiles[] = $file;
                 $this->tabs->tabs->add($tab);
+                $editor->openFile($file, $tab);
                 $this->tabs->selectTab($tab);
             }else{
                 $this->tabs->selectTab($this->tabsList[$i-1]);
