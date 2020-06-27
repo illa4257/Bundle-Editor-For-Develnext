@@ -1,4 +1,15 @@
 {
   "props": [],
-  "components": []
+  "components": {
+    "update": {
+      "type": "script\\TimerScript",
+      "x": 16.0,
+      "y": 16.0,
+      "props": {
+        "interval": 500,
+        "repeatable": "1",
+        "autoStart": "1"
+      }
+    }
+  }
 }

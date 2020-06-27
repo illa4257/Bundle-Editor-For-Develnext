@@ -25,7 +25,7 @@
     <Data cursor="DEFAULT" draggable="ALL" enabled="1" id="data-tabs" visible="1"/>
     <Data cursor="DEFAULT" enabled="1" id="data-label" visible="1"/>
     <TabPaneEx AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="56" focusTraversable="true" id="tabs" layoutX="216" layoutY="56" prefHeight="424" prefWidth="640" styleClass="tab-pane " tabClosingPolicy="ALL_TABS"/>
-    <Separator AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="56" focusTraversable="false" id="separator" layoutX="208" layoutY="56" orientation="VERTICAL" prefHeight="424" prefWidth="8" styleClass="separator "/>
-    <Data cursor="MOVE" enabled="1" id="data-separator" visible="1"/>
+    <Separator AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="56" focusTraversable="false" id="separator" layoutX="208" layoutY="56" orientation="VERTICAL" prefHeight="424" prefWidth="8" style="-fx-cursor:h-resize;" styleClass="separator "/>
+    <Data cursor="DEFAULT" enabled="1" id="data-separator" visible="1"/>
   </children>
 </AnchorPane>

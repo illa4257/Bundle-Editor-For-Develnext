@@ -85,14 +85,7 @@ class ide extends AbstractForm
      */
     function doTabsChange(UXEvent $e = null)
     {    
-        $tabs = $this->tabs->tabs->toArray();
-        $l = "[";
-        foreach ($tabs as $tab){
-            if($l!="[") $l .= ",";
-            $l .= $tab->data("data");
-        }
-        $l .= "]";
-        $this->ini->set("tabs", $l);
+        $this->updateTabs();
     }
 
     /**
@@ -178,6 +171,7 @@ class ide extends AbstractForm
         $item = new UXMenuItem('Check updates');
         $item->on("action", function (){
             app()->showForm('about');
+            app()->restoreForm('about');
             app()->form('about')->requestFocus();
         });
         $about->items->add($item);
@@ -206,25 +200,6 @@ class ide extends AbstractForm
         $this->activeForm->requestFocus();
     }
 
-    /**
-     * @event tabs.close 
-     */
-    function doTabsClose(UXEvent $e = null)
-    {    
-        $l = [];
-        $l2 = [];
-        if($this->tabs->tabs->count()!=0){
-            $arr = $this->tabs->tabs->toArray();
-            foreach ($arr as $tab){
-                if($tab->data("tab")){
-                    $l2[] = $tab;
-                    $l[] = $tab->data("file");
-                }
-            }
-        }
-        $this->openedFiles = $l;
-        $this->tabsList = $l2;
-    }
 
     /**
      * @event tabs.closeRequest 
@@ -235,6 +210,7 @@ class ide extends AbstractForm
             $e->target->content->content->free();
         }
         $e->target->content->free();
+        $this->updateTabs();
     }
 
 
@@ -316,7 +292,7 @@ class ide extends AbstractForm
     }
     
     public function editFile($fp){
-        $file = fs::abs(fs::abs($GLOBALS['projectdir']).$fp);
+        $file = fs::abs(fs::abs($GLOBALS['projectdir'].$this->getContextForm()->projectName).$fp);
         if(fs::exists($file)){
             $bool = true;
             $i = 0;
@@ -345,12 +321,38 @@ class ide extends AbstractForm
                 $this->tabsList[] = $tab;
                 $this->openedFiles[] = $file;
                 $this->tabs->tabs->add($tab);
-                $editor->openFile($file, $tab);
                 $this->tabs->selectTab($tab);
+                $this->updateTabs();
+                $editor->openFile($file, $tab);
             }else{
                 $this->tabs->selectTab($this->tabsList[$i-1]);
             }
         }
+    }
+    
+    function updateTabs(){
+        $tabs = $this->tabs->tabs->toArray();
+        $l = "[";
+        foreach ($tabs as $tab){
+            if($l!="[") $l .= ",";
+            $l .= $tab->data("data");
+        }
+        $l .= "]";
+        $this->ini->set("tabs", $l);
+        
+        $l = [];
+        $l2 = [];
+        if($this->tabs->tabs->count()!=0){
+            $arr = $this->tabs->tabs->toArray();
+            foreach ($arr as $tab){
+                if($tab->data("tab")){
+                    $l2[] = $tab;
+                    $l[] = $tab->data("file");
+                }
+            }
+        }
+        $this->openedFiles = $l;
+        $this->tabsList = $l2;
     }
 
 }

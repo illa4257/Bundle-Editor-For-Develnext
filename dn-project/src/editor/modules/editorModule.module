@@ -3,8 +3,8 @@
   "components": {
     "script": {
       "type": "script\\MacroScript",
-      "x": 64,
-      "y": 80,
+      "x": 0.0,
+      "y": 0.0,
       "props": {}
     }
   }

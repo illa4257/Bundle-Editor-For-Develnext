@@ -24,7 +24,7 @@ class editorModule extends AbstractModule
             }
             if($this->getContextForm()->updateCode){
                 $this->getContextForm()->updateCode = false;
-                $text = str::lines($this->getContextForm()->getText());
+                $text = str::lines($this->getContextForm()->getText()." ");
                 $ct = arr::count($text);
                 $code = $this->code->items;
                 $cc = $code->count();
@@ -55,10 +55,10 @@ class editorModule extends AbstractModule
                 while($y!=$ct){
                     // x
                     $posx = 0;
-                    $line = str::lines("\n".str::replace($text[$y], ' ', "\n \n"));
+                    $line = str::lines("0\n".str::replace($text[$y], ' ', "\n \n")."\n");
                     $cl = arr::count($line);
                     $obj = $code->offsetGet($y)->children;
-                    $cc = $obj->count();
+                    $cc = $obj->count()-1;
                     while($cl!=$cc){
                         if($cl>=$cc){
                             $cc++;
@@ -78,7 +78,7 @@ class editorModule extends AbstractModule
                     $x = 0;
                     while($x!=$cl){
                         if($x!=0){
-                            $UXLabelEx = $obj->offsetGet($x);
+                            $UXLabelEx = $obj->offsetGet($x+1);
                             $value = $line[$x];
                             uiLaterAndWait(function () use ($UXLabelEx, $value, $posx){
                                 $UXLabelEx->text = $value;
@@ -89,10 +89,12 @@ class editorModule extends AbstractModule
                         }else{
                             $UXLabelEx = $obj->offsetGet($x);
                             $width = $UXLabelEx->font->calculateTextWidth($y)+8;
+                            $width += 8;
                             if($width>=$gwidth){
                                 $gwidth = $width;
                             }
-                            uiLaterAndWait(function () use ($oldWidth, $UXLabelEx){
+                            uiLaterAndWait(function () use ($UXLabelEx, $oldWidth, $y){
+                                $UXLabelEx->text = $y;
                                 $UXLabelEx->width = $oldWidth;
                                 $this->textArea->x = $oldWidth;
                             });
@@ -112,9 +114,15 @@ class editorModule extends AbstractModule
                     $this->code->data('update', true);
                 }elseif($this->code->data('update')){
                     uiLaterAndWait(function (){
+                        $this->code->data('update', false);
                         $this->getContextForm()->updateWH($this->textArea->text);
-                        $this->info->text = "Loaded!";
-                        $this->getContextForm()->tab->text = $this->getContextForm()->text;
+                        if($this->code->data('loaded')==null){
+                            $this->code->data('loaded', true);
+                            $this->info->text = "Loaded!";
+                            $this->getContextForm()->tab->text = $this->getContextForm()->text;
+                            $this->textArea->enabled = true;
+                            $this->code->show();
+                        }
                     });
                 }
             }else{
@@ -122,5 +130,6 @@ class editorModule extends AbstractModule
             }
         }
     }
+
 
 }

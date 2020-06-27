@@ -69,10 +69,10 @@ class updater
             if($code==200){
                 $text = $r->body();
                 try {
-                    $json = Json::decode($text);
-                    $json = $json[0];
+                    $jsonR = Json::decode($text);
+                    $json = $jsonR[0];
                     $this->lastVersion = $json['tag_name'];
-                    $this->description = $json['body'];
+                    $this->description = $json['tag_name'].":\n".$json['body'];
                     $l = [];
                     foreach ($json['assets'] as $asset){
                         if(fs::ext($asset['name'])=="zip"){
@@ -82,6 +82,16 @@ class updater
                     $this->assets = $l;
                     if($this->lastVersion!=null and $this->version!=$this->lastVersion){
                         $this->availableUpdate = true;
+                        $i = 1;
+                        while($jsonR[$i]!=null){
+                            $json = $jsonR[$i];
+                            if($json['tag_name']!=$this->version){
+                                $this->description .= "\n\n".$json['tag_name'].":\n".$json['body'];
+                                $i++;
+                            }else{
+                                $i = -1;
+                            }
+                        }
                     }
                     $this->checked = true;
                 }catch (Exception $err){

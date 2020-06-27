@@ -18,6 +18,8 @@ class aboutModule extends AbstractModule
                 $data .= "Available update: ".$GLOBALS['updater']->lastVersion;
                 $labelEx = new UXLabelEx($GLOBALS['updater']->description);
                 $this->container->content = $labelEx;
+            }else{
+                $data .= "This is last version!";
             }
         }
         $this->info->text = $data;

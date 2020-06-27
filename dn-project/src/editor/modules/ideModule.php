@@ -9,6 +9,7 @@ class ideModule extends AbstractModule
 {
 
     public $objForFile = [];
+    public $count = 0;
 
     /**
      * @event action 
@@ -256,9 +257,34 @@ class ideModule extends AbstractModule
                     }
                 }
                 sleep(1);
+                uiLaterAndWait(function (){
+                    if($this->count!=$this->tabs->tabs->count()){
+                        $this->getContextForm()->updateTabs();
+                        $this->count = $this->tabs->tabs->count();
+                    }
+                });
             }
         });
         $this->thread->start();
+    }
+
+    /**
+     * @event update.action 
+     */
+    function doUpdateAction(ScriptEvent $e = null)
+    {    
+        $form = $this->getContextForm();
+        $v = 0;
+        while($form->width+$v<=856){
+            $v++;
+        }
+        $form->width += $v;
+        
+        $v = 0;
+        while($form->height+$v<=480){
+            $v++;
+        }
+        $form->height += $v;
     }
     
     function saveExpands(UXTreeView $root){
@@ -316,7 +342,7 @@ class ideModule extends AbstractModule
             $iconArea->data('isDir', $child->isDir);
             if(!$child->isDir){
                 $iconArea->data('file', fs::abs($item));
-                $iconArea->data('fp', str::replace(fs::abs($item), fs::abs($GLOBALS['projectdir']), ""));
+                $iconArea->data('fp', str::replace(fs::abs($item), fs::abs($GLOBALS['projectdir'].$this->getContextForm()->projectName), ""));
             }
             $child->graphic = $iconArea;
             $this->saveExpands($root);

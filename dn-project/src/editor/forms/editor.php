@@ -14,13 +14,17 @@ class editor extends AbstractForm
     {    
         $this->textArea->observer("text")->addListener(function ($old, $new){
             $this->updateWH($new);
-            $this->tab->text = $this->text." (*)";
+            $this->tab->text = $this->text."*";
             $this->info->text = "Waiting...";
             $this->saveFile = true;
             $this->updateCode = true;
         });
+        $this->textArea->observer("selection")->addListener(function ($old, $new){
+            $this->updateSelection();
+        });
         $this->script->callAsync();
     }
+
     
     function updateWH($new){
         $arr = str::lines($new);
@@ -39,7 +43,18 @@ class editor extends AbstractForm
         $this->textArea->height = $height+3;
         $this->code->height = $height;
     }
-
+    
+    function updateSelection(){
+        $arr = [$this->getLineFromPos($this->textArea->text, $this->textArea->selection["start"])];
+        $i = $arr[0];
+        $end = $this->getLineFromPos($this->textArea->text, $this->textArea->selection["end"]);
+        while($end!=$arr[0]){
+            $i++;
+            $arr[] = $i;
+            $end--;
+        }
+        $this->code->selectedIndexes = $arr;
+    }
     
     public $file;
     public $saveFile = false;
@@ -60,6 +75,17 @@ class editor extends AbstractForm
     
     public function getText(){
         return $this->textArea->text;
+    }
+    
+    function getLineFromPos($text, $pos){
+        $text = str::lines($text);
+        $ct = arr::count($text);
+        $y = 0;
+        while($y!=$ct and $pos>=0){
+            $pos -= str::length($text[$y])+1;
+            $y++;
+        }
+        return $y-1;
     }
     
 }
