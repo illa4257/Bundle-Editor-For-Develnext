@@ -7,24 +7,6 @@ use std, gui, framework, editor;
 class editor extends AbstractForm
 {
 
-    /**
-     * @event construct 
-     */
-    function doConstruct(UXEvent $e = null)
-    {    
-        $this->textArea->observer("text")->addListener(function ($old, $new){
-            $this->updateWH($new);
-            $this->tab->text = $this->text."*";
-            $this->info->text = "Waiting...";
-            $this->saveFile = true;
-            $this->updateCode = true;
-        });
-        $this->textArea->observer("selection")->addListener(function ($old, $new){
-            $this->updateSelection();
-        });
-        $this->script->callAsync();
-    }
-
     
     function updateWH($new){
         $arr = str::lines($new);
@@ -44,25 +26,17 @@ class editor extends AbstractForm
         $this->code->height = $height;
     }
     
-    function updateSelection(){
-        $arr = [$this->getLineFromPos($this->textArea->text, $this->textArea->selection["start"])];
-        $i = $arr[0];
-        $end = $this->getLineFromPos($this->textArea->text, $this->textArea->selection["end"]);
-        while($end!=$arr[0]){
-            $i++;
-            $arr[] = $i;
-            $end--;
-        }
-        $this->code->selectedIndexes = $arr;
-    }
-    
     public $file;
     public $saveFile = false;
     public $updateCode = false;
+    public $updateHint = false;
     public $tab;
     public $text;
+    public $docs = [];
 
-    public function openFile($file, $tab){
+    public function openFile($file, $tab, $docs){
+        $this->module('editorModule')->docs = $docs;
+        $this->docs = $docs;
         $this->file = $file;
         $data = file_get_contents($file);
         $this->textArea->text = $data;
@@ -71,6 +45,21 @@ class editor extends AbstractForm
         $this->text = $tab->text;
         $this->updateCode = true;
         $tab->text .= ' (-)';
+        
+        $this->textArea->observer("text")->addListener(function ($old, $new){
+            $this->updateWH($new);
+            $this->tab->text = $this->text."*";
+            $this->info->text = "Waiting...";
+            $this->saveFile = true;
+            $this->updateCode = true;
+        });
+        $this->textArea->observer("selection")->addListener(function ($old, $new){
+            $this->updateHint = true;
+        });
+        
+        $this->script->callAsync();
+        $this->script2->callAsync();
+        //$this->script3->callAsync();
     }
     
     public function getText(){

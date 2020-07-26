@@ -1,6 +1,7 @@
 <?php
 namespace editor\forms;
 
+use facade\Json;
 use Exception, bundle\zip\ZipFileScript, facade\Json, std, gui, framework, editor, scripts\pmgr;
 
 
@@ -19,6 +20,8 @@ class ide extends AbstractForm
             $this->hide();
             $this->free();
             app()->shutdown();
+            sleep(1);
+            exit();
         }else{
             $e->consume();
             $this->block(true);
@@ -188,6 +191,12 @@ class ide extends AbstractForm
     function doShow(UXWindowEvent $e = null)
     {    
         $this->w = $this->width;
+        $this->settings->color = $GLOBALS['styles']['btn1'];
+        $this->settings->hoverColor = $GLOBALS['styles']['btn1-hover'];
+        $this->settings->textColor = $GLOBALS['styles']['btn1-text'];
+        $icon = new UXImage($GLOBALS['icons']['settings']);
+        $icon = new UXImageView($icon);
+        $this->settings->graphic = $icon;
     }
     
     /**
@@ -213,8 +222,21 @@ class ide extends AbstractForm
         $this->updateTabs();
     }
 
-
+    /**
+     * @event settings.action 
+     */
+    function doSettingsAction(UXEvent $e = null)
+    {    
+        $this->block();
+        $settings = app()->form('settings');
+        $this->activeForm = $settings;
+        $settings->from = $this;
+        $settings->showAndWait();
+        $this->block(true);
+    }
+    
     public $exts = ["php", "txt", "html", "resource", "ini", "json", "java", "js", "css", "bat", "cmd", "vbs", "cs"];
+    public $docs = [];
     public $project;
     public $projectName;
     public $projectID;
@@ -249,6 +271,23 @@ class ide extends AbstractForm
                 $this->title = $title;
                 $ac->pb1->progress = 10;
             });
+            $dir = new File($GLOBALS['docdir']);
+            foreach ($dir->findFiles() as $file){
+                if(fs::isFile($file)){
+                    try {
+                        $json = file_get_contents($file);
+                        $json = Json::decode($json);
+                        $this->docs[] = $json;
+                    }catch (Exception $err){
+                        uiLaterAndWait(function () use ($err, $file){
+                            alert($file.":\n".$err->getMessage());
+                        });
+                    }
+                }
+            }
+            uiLaterAndWait(function () use ($ac){
+                $ac->pb1->progress = 50;
+            });
             $this->projectID = $ini->get("ID");
             $this->projectType = $ini->get("type");
             $tabs = $ini->get("tabs");
@@ -257,8 +296,8 @@ class ide extends AbstractForm
                 if($tabArr['type']=="Welcome"){
                     $tab = new UXTab;
                     $panel = new UXPanel;
+                    $panel->classesString = "flat-panel";
                     $panel->borderWidth = 0;
-                    $panel->backgroundColor = "#f2f2f2";
                     $tab->text = "Welcome";
                     $tab->data('data', "{\"type\":\"Welcome\"}");
                     $labelEx = new UXLabelEx("Welcome to Bundle Editor!\n      This is editor bundles for DevelNext...");
@@ -289,10 +328,15 @@ class ide extends AbstractForm
         $this->panel->enabled = $en;
         $this->tree->enabled = $en;
         $this->tabs->enabled = $en;
+        if($en){
+            $this->label->opacity = 1;
+        }else{
+            $this->label->opacity = 0;
+        }
     }
     
     public function editFile($fp){
-        $file = fs::abs(fs::abs($GLOBALS['projectdir'].$this->getContextForm()->projectName).$fp);
+        $file = fs::abs(fs::abs($this->project).$fp);
         if(fs::exists($file)){
             $bool = true;
             $i = 0;
@@ -308,6 +352,15 @@ class ide extends AbstractForm
                 $tab->data("file", $file);
                 $tab->data('data', "{\"type\":\"File\",\"file\":\"".str::replace($fp, '\\', '\\\\')."\"}");
                 
+                $ext = fs::ext($file);
+                $docs = [];
+                foreach ($this->docs as $doc){
+                    foreach ($doc['exts'] as $ext1){
+                        if($ext==$ext1){
+                            $docs = $doc;
+                        }
+                    }
+                }
                 $tab->text = fs::name($file);
                 $graphic = tools::getIcon(fs::ext($file));
                 $graphic = new UXImageArea($graphic);
@@ -323,7 +376,7 @@ class ide extends AbstractForm
                 $this->tabs->tabs->add($tab);
                 $this->tabs->selectTab($tab);
                 $this->updateTabs();
-                $editor->openFile($file, $tab);
+                $editor->openFile($file, $tab, $docs);
             }else{
                 $this->tabs->selectTab($this->tabsList[$i-1]);
             }

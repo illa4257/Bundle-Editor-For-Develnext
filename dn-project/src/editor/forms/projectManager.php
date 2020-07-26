@@ -47,6 +47,8 @@ class projectManager extends AbstractForm
     {    
         if(!$this->mp->enabled){
             $e->consume();
+        }else{
+            exit();
         }
     }
 
@@ -55,7 +57,7 @@ class projectManager extends AbstractForm
      */
     function doAboutAction(UXEvent $e = null)
     {    
-        app()->showForm('about');
+        app()->form('about')->show();
         app()->form('about')->requestFocus();
     }
 
@@ -67,11 +69,36 @@ class projectManager extends AbstractForm
         if(!$this->mp->enabled)
         $this->activeForm->requestFocus();
     }
+
+    /**
+     * @event settings.action 
+     */
+    function doSettingsAction(UXEvent $e = null)
+    {    
+        $this->block();
+        $settings = app()->form('settings');
+        $this->activeForm = $settings;
+        $settings->showAndWait();
+        $this->block(true);
+    }
+
+    /**
+     * @event show 
+     */
+    function doShow(UXWindowEvent $e = null)
+    {    
+        $this->width -= 8;
+        $this->height -= 8;
+        $icon = new UXImage($GLOBALS['icons']['settings']);
+        $icon = new UXImageView($icon);
+        $this->settings->graphic = $icon;
+    }
     
     public $activeForm;
     
     function block($en = false){
         $this->mp->enabled = $en;
         $this->op->enabled = $en;
+        $this->settings->enabled = $en;
     }
 }

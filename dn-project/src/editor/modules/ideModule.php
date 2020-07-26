@@ -1,6 +1,7 @@
 <?php
 namespace editor\modules;
 
+use php\desktop\Robot;
 use Exception;
 use facade\Json, std, gui, framework, editor, scripts\tools;
 
@@ -274,18 +275,22 @@ class ideModule extends AbstractModule
     function doUpdateAction(ScriptEvent $e = null)
     {    
         $form = $this->getContextForm();
+        $robot = new RobotScript;
         $v = 0;
         while($form->width+$v<=856){
             $v++;
         }
         $form->width += $v;
+        $robot->x += $v;
         
         $v = 0;
         while($form->height+$v<=480){
             $v++;
         }
         $form->height += $v;
+        $robot->y += $v;
     }
+
     
     function saveExpands(UXTreeView $root){
         $expands = $root->expandedItems;
@@ -342,7 +347,7 @@ class ideModule extends AbstractModule
             $iconArea->data('isDir', $child->isDir);
             if(!$child->isDir){
                 $iconArea->data('file', fs::abs($item));
-                $iconArea->data('fp', str::replace(fs::abs($item), fs::abs($GLOBALS['projectdir'].$this->getContextForm()->projectName), ""));
+                $iconArea->data('fp', str::replace(fs::abs($item), fs::abs($this->getContextForm()->project), ""));
             }
             $child->graphic = $iconArea;
             $this->saveExpands($root);

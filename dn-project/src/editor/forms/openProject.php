@@ -1,9 +1,7 @@
 <?php
 namespace editor\forms;
 
-use Exception;
-use std, gui, framework, editor;
-use scripts\tools;
+use Exception, std, gui, framework, editor, scripts\tools;
 
 
 class openProject extends AbstractForm
@@ -15,6 +13,12 @@ class openProject extends AbstractForm
     function doConstruct(UXEvent $e = null)
     {    
         $this->update();
+        
+        $icon = new UXImageView(new UXImage($GLOBALS['icons']['find']));
+        $this->find->graphic = $icon;
+        
+        $icon = new UXImageView(new UXImage($GLOBALS['icons']['refresh']));
+        $this->refresh->graphic = $icon;
     }
 
     /**
@@ -85,7 +89,7 @@ class openProject extends AbstractForm
         $this->container->hide();
         (new Thread(function (){
             $find = $this->findEdit->text;
-            $content = new UXFlowPane;
+            $content = new UXTilePane;
             foreach ($this->list as $p){
                 if(str::contains($p['name'], $find)){
                     $btn = new UXButton($p['name']);

@@ -88,6 +88,8 @@ class tools
             $icon = new UXImage("res://.data/img/html-file.png");
         }elseif($ext=="php"){
             $icon = new UXImage("res://.data/img/php-file.png");
+        }elseif($ext=="css"){
+            $icon = new UXImage("res://.data/img/css-file.png");
         }else
             $icon = new UXImage("res://.data/img/file.png");
         

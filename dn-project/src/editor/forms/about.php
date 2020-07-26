@@ -32,5 +32,14 @@ class about extends AbstractForm
         browse("https://github.com/illa4257/Bundle-Editor-for-Develnext");
     }
 
+    /**
+     * @event show 
+     */
+    function doShow(UXWindowEvent $e = null)
+    {    
+        $this->width -= 8;
+        $this->height -= 8;
+    }
+
 
 }

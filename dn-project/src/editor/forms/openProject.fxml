@@ -17,17 +17,17 @@
       </font>
     </TextField>
     <Data cursor="DEFAULT" enabled="1" id="data-findEdit" visible="1"/>
-    <Button AnchorPane.rightAnchor="48" alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="4" id="find" layoutX="560" layoutY="8" prefHeight="32" prefWidth="32" styleClass="button " text="F" textAlignment="CENTER" underline="false" wrapText="false">
+    <Button AnchorPane.rightAnchor="44" alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="4" id="find" layoutX="560" layoutY="8" prefHeight="32" prefWidth="32" styleClass="button " text="" textAlignment="CENTER" underline="false" wrapText="false">
       <font>
         <Font name="System Regular" size="12"/>
       </font>
     </Button>
-    <Data cursor="DEFAULT" enabled="1" id="data-find" visible="1"/>
-    <Button AnchorPane.rightAnchor="8" alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="4" id="refresh" layoutX="600" layoutY="8" prefHeight="32" prefWidth="32" styleClass="button " text="R" textAlignment="CENTER" underline="false" wrapText="false">
+    <Data cursor="DEFAULT" enabled="1" graphic=".data/img/find.png" id="data-find" visible="1"/>
+    <Button AnchorPane.rightAnchor="8" alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="0" id="refresh" layoutX="596" layoutY="8" prefHeight="32" prefWidth="32" styleClass="button " text="" textAlignment="CENTER" underline="false" wrapText="false">
       <font>
         <Font name="System Regular" size="12"/>
       </font>
     </Button>
-    <Data cursor="DEFAULT" enabled="1" id="data-refresh" visible="1"/>
+    <Data cursor="DEFAULT" enabled="1" graphic=".data/img/Refresh.png" id="data-refresh" visible="1"/>
   </children>
 </AnchorPane>

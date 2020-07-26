@@ -145,7 +145,28 @@ class pmgr
                     $cl = self::getClassList($project.'src/vendor/develnext.bundle.'.str::lower($id).'.'.$id.'Bundle/bundle/'.str::lower($id));
                     $text = "<ul>\n";
                     foreach ($cl as $item){
-                        $text .= "    <li>".$item."</li>\n";
+                        $text .= "    <li>".$item['className'];
+                        $list = self::getVarsAndFuncsList($item['file'],$item['className']);
+                        if(arr::count($list)!=0){
+                            $text .= "<ul>";
+                            foreach ($list as $var){
+                                $text .= "<li>".$var['call'].$var['name'];
+                                if($var['isFunc']){
+                                    $text .= "(";
+                                    foreach ($var['args'] as $arg){
+                                        $text .= $arg;
+                                        if($arg[str::length($arg)-1]==',') $text .= " ";
+                                    }
+                                    $text .= ")";
+                                }
+                                if($var['result']!=null){
+                                    $text .= " : ".$var['result'];
+                                }
+                                $text .= "</li>";
+                            }
+                            $text .= "</ul>";
+                        }
+                        $text .= "</li>\n";
                     }
                     $text .= "<ul>";
                     file_put_contents($project.'build/temp/f/develnext/bundle/'.str::lower($id).'/description.html', $text);
@@ -205,8 +226,81 @@ class pmgr
                     $className = fs::nameNoExt($file);
                     $isClassFile = str::contains(file_get_contents($file), 'class '.$className);
                     if($isClassFile){
-                        $l[] = $className;
+                        $l[] = ['file' => $file, 'className'=>$className];
                     }
+                }
+            }
+        }
+        return $l;
+    }
+    
+    public static function getVarsAndFuncsList($file, $className){
+        $data = str::replace(file_get_contents($file), '{', ' { ');
+        $data = str::replace($data, '}', ' } ');
+        $data = str::replace($data, '    ', ' ');
+        $data = str::replace($data, ';', ' ; ');
+        $data = str::replace($data, '(', ' ( ');
+        $data = str::replace($data, ')', ' ) ');
+        $lines = str::lines($data, true);
+        $l = [];
+        $fc = true;
+        $sk = 0;
+        $sk2 = false;
+        $type = "";
+        foreach ($lines as $line){
+            if($fc){
+                if(str::contains($line, 'class '.$className)){
+                    $fc = false;
+                }
+            }
+            if(!$fc){
+                $line = explode(' ', $line);
+                $nl = 0;
+                $read = false;
+                $isFunc = false;
+                $call = "";
+                $name = "";
+                $args = [];
+                foreach ($line as $text){
+                    if($text=='@var' or $text=='@return'){
+                        $type = $line[$nl+1];
+                    }
+                    if($text=="("){
+                        $sk2 = true;
+                    }
+                    if($text==")"){
+                        $sk2 = false;
+                    }
+                    if($name=="" and $read==true and $text!='function' and $text!='static'){
+                        $name = str::replace($text, '$', '');
+                    }
+                    if($read and $sk2 and $text!="(" and $text!=""){
+                        $args[] = $text;
+                    }
+                    if($text=='public'){
+                        $read = true;
+                        $call = '->';
+                    }
+                    if($text=='static' and $read){
+                        $call = '::';
+                    }
+                    if($text=='function' and $read){
+                        $isFunc = true;
+                    }
+                    if($text=="{"){
+                        $sk++;
+                    }
+                    if($text=="}"){
+                        $sk--;
+                        if($sk==0){
+                            $fc = true;
+                        }
+                    }
+                    $nl++;
+                }
+                if($read){
+                    $l[] = ['result'=>$type,'call'=>$call, 'name'=>$name,'isFunc'=>$isFunc,'args'=>$args];
+                    $type = "";
                 }
             }
         }

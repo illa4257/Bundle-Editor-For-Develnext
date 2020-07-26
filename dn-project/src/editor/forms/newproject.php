@@ -212,13 +212,13 @@ class newproject extends AbstractForm
     function update(){
         $a = $this->check();
         if($a){
-            $this->make->backgroundColor = "#6680e6";
-            $this->make->hoverColor = "#4d66cc";
-            $this->make->textColor = "#ffffff";
+            $this->make->color = $GLOBALS['styles']["btn1"];
+            $this->make->hoverColor = $GLOBALS['styles']["btn1-hover"];
+            $this->make->textColor = $GLOBALS['styles']["btn1-text"];
         }else{
-            $this->make->backgroundColor = "#e6e6e6";
-            $this->make->hoverColor = "#cccccc";
-            $this->make->textColor = "#333333";
+            $this->make->color = $GLOBALS['styles']["btn1-hover"];
+            $this->make->hoverColor = $GLOBALS['styles']["btn1-hover"];
+            $this->make->textColor = $GLOBALS['styles']["btn1-text"];
         }
         $this->make->borderRadius = 3;
     }

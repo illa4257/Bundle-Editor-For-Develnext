@@ -6,14 +6,20 @@
         <Font name="System Regular" size="21"/>
       </font>
     </LabelEx>
-    <Panel AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" backgroundColor="#e6e6e6" borderColor="#c0c0c0" borderRadius="0" borderStyle="SOLID" borderWidth="0" focusTraversable="false" id="panel" layoutX="0" layoutY="24" maxHeight="-1" maxWidth="-1" minHeight="-1" minWidth="-1" prefHeight="32" prefWidth="856" style="-fx-border-color:gray;-fx-border-width :0 0 1 0;" styleClass="" titleColor="#333333" titleOffset="15" titlePosition="TOP_LEFT">
+    <Panel AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" backgroundColor="#e6e6e6" borderColor="#c0c0c0" borderRadius="0" borderStyle="SOLID" borderWidth="0" focusTraversable="false" id="panel" layoutX="0" layoutY="24" maxHeight="-1" maxWidth="-1" minHeight="-1" minWidth="-1" prefHeight="33" prefWidth="856" style="-fx-border-color:gray;-fx-border-width :0 0 1 0;" styleClass="flat-panel " titleColor="#333333" titleOffset="15" titlePosition="TOP_LEFT">
       <children>
-        <Button alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="7.75" id="build" layoutX="0" layoutY="2" prefHeight="28" prefWidth="120" styleClass="button " text="Build" textAlignment="CENTER" underline="false" wrapText="false">
+        <Button alignment="CENTER" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="7.75" id="build" layoutX="34" layoutY="2" prefHeight="28" prefWidth="120" styleClass="button " text="Build" textAlignment="CENTER" underline="false" wrapText="false">
           <font>
             <Font name="System Regular" size="12"/>
           </font>
         </Button>
         <Data cursor="DEFAULT" enabled="1" graphic=".data/img/box-20x20.png" id="data-build" visible="1"/>
+        <FlatButton alignment="CENTER" borderRadius="3" color="#e6e6e6" contentDisplay="LEFT" ellipsisString="..." focusTraversable="true" graphicTextGap="4" hoverColor="#cccccc" id="settings" layoutX="0" layoutY="0" prefHeight="32" prefWidth="32" styleClass="x-flat-button flat-btn1 " text="" textAlignment="CENTER" textFill="#ffffff" underline="false" wrapText="false">
+          <font>
+            <Font name="System Regular" size="12"/>
+          </font>
+        </FlatButton>
+        <Data cursor="DEFAULT" enabled="1" graphic=".data/img/settings-20x20.png" id="data-settings" visible="1"/>
       </children>
       <titleFont>
         <Font name="System Regular" size="12"/>
@@ -24,7 +30,7 @@
     <Data cursor="DEFAULT" enabled="1" id="data-tree" visible="1"/>
     <Data cursor="DEFAULT" draggable="ALL" enabled="1" id="data-tabs" visible="1"/>
     <Data cursor="DEFAULT" enabled="1" id="data-label" visible="1"/>
-    <TabPaneEx AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="56" focusTraversable="true" id="tabs" layoutX="216" layoutY="56" prefHeight="424" prefWidth="640" styleClass="tab-pane " tabClosingPolicy="ALL_TABS"/>
+    <TabPaneEx AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="57" focusTraversable="true" id="tabs" layoutX="216" layoutY="57" prefHeight="423" prefWidth="640" styleClass="tab-pane " tabClosingPolicy="ALL_TABS"/>
     <Separator AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="56" focusTraversable="false" id="separator" layoutX="208" layoutY="56" orientation="VERTICAL" prefHeight="424" prefWidth="8" style="-fx-cursor:h-resize;" styleClass="separator "/>
     <Data cursor="DEFAULT" enabled="1" id="data-separator" visible="1"/>
   </children>
