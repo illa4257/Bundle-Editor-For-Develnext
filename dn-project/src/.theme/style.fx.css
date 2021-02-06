@@ -6,12 +6,19 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 0, 2);
 }
 
-.flat-panel {
+.check-box .box,
+.text-input,
+.combo-box,
+.button,
+.flat-panel,
+.text-area .content,
+.menu-bar {
     -fx-background-color:#e6e6e6;
 }
 
-.menu-bar {
-    -fx-background-color:#e6e6e6;
+.combo-box:hover,
+.button:hover {
+    -fx-background-color:#ccc;
 }
 
 .progress-bar {

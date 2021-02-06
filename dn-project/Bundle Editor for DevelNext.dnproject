@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project author="illa4257" authorOS="Windows 10" createdAt="1591649614784" ideName="DevelNext" ideVersion="16.7.0" ideVersionHash="2017103112" name="Bundle Editor for DevelNext" packageName="editor" template="ide\project\templates\DefaultGuiProjectTemplate" updatedAt="1595699786999">
+<project author="illa4257" authorOS="Windows 10" createdAt="1591649614784" ideName="DevelNext" ideVersion="16.7.0" ideVersionHash="2017103112" name="Bundle Editor for DevelNext" packageName="editor" template="ide\project\templates\DefaultGuiProjectTemplate" updatedAt="1612639892132">
   <tree>
     <expanded>
     <path src=""/>
-      <path src="/docs"/>
       <path src="/src"/>
       <path src="/src/.theme"/>
       <path src="/src/editor"/>
       <path src="/src/editor/forms"/>
       <path src="/src/editor/modules"/>
       <path src="/src/scripts"/>
-      <path src="/vendor"/>
     </expanded>
   </tree>
   <openedFiles>
-  <file src="Bundle Editor for DevelNext.dnproject"/>
-    <file src="src/editor/forms/editor.php"/>
-    <file selected="1" src="src/editor/modules/editorModule.php"/>
-    <file src="src/.theme/dark-theme.css"/>
+  <file selected="1" src="Bundle Editor for DevelNext.dnproject"/>
   </openedFiles>
   <files/>
   <behaviours>

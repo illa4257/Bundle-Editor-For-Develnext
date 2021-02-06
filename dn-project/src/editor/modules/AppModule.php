@@ -11,7 +11,7 @@ class AppModule extends AbstractModule
      */
     function doAction(ScriptEvent $e = null)
     {
-        $GLOBALS['version'] = "dev-v0.0.1.3";
+        $GLOBALS['version'] = "dev-v0.0.1.4";
         $ide = fs::name($GLOBALS['argv'][0])=="jphp-core.jar";
         $GLOBALS['progdir'] = fs::parent($GLOBALS['argv'][0]) . '/';
         if($ide) $GLOBALS['progdir'] = fs::abs('./').'/';

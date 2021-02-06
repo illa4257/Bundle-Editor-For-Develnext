@@ -90,6 +90,8 @@ class openProject extends AbstractForm
         (new Thread(function (){
             $find = $this->findEdit->text;
             $content = new UXTilePane;
+            $content->hgap = 5;
+            $content->vgap = 5;
             foreach ($this->list as $p){
                 if(str::contains($p['name'], $find)){
                     $btn = new UXButton($p['name']);
